@@ -1,0 +1,77 @@
+<div class="px-4 py-4 leading-6 text-lg">
+    
+    <a class="font-bold text-blue-800" routerLink="/transactions">Retour</a>
+    <h1><span class="font-bold text-red-800">APC :</span> {{transactions.APC | titlecase }}</h1>
+    <h1><span class="font-bold text-red-800">Client :</span> {{transactions.Client | titlecase }}</h1>
+    <h1><span class="font-bold text-red-800">Date :</span> {{transactions.Add_Date}}</h1>
+    <h1><span class="font-bold text-red-800">Total Hors Taxe :</span> {{totalHorsTaxe}}</h1>
+    <h1><span class="font-bold text-red-800">Total TVA :</span> {{totalTVA}}</h1>
+    <h1><span class="font-bold text-red-800">TTC :</span> {{totalHorsTaxe+totalTVA}}</h1>
+</div>
+
+
+<div class="flex flex-col px-2   ">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden sm:rounded-lg ">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-black">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  
+                </th>
+            
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  Articles
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    Quantité
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  Prix
+                </th>
+               
+                
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  TVA
+                </th>
+             
+                
+                
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200" *ngFor = "let article of liste; let i = index">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {{i + 1}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {{article.article | titlecase}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {{article.quantite }} <span class="mx-4 text-blue-800 cursor-pointer" (click) = "showModify(article.article)">Modifier</span>
+                  <form *ngIf = "isModify[article.article]" class="inline" #f = "ngForm" (ngSubmit) = onSubmit(f,article.quantite)>
+                    <input ngModel required name = "newQuantite" type="number" class="w-24 border-gray-200 rounded-full">
+                    <button type="submit" class="text-green-500 mx-2" [disabled] = "f.invalid"><i class="fas fa-check"></i></button>
+                  </form>
+                  </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {{article.prix}}
+                </td>
+                
+                
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full">
+                    {{article.tva}}%
+                  </span>
+                </td>
+                
+             
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

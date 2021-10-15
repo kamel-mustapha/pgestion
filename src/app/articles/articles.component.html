@@ -1,0 +1,85 @@
+<main >
+  <form #f = ngForm (ngSubmit) = onSubmit(f)>
+    <div class=" 2xl:w-full  top-0 bg-white">
+      <h1 class="text-3xl font-bold text-gray-700 font-serif">ARTICLES</h1>
+      <h1 *ngIf = "isDuplicate" class="text-red-500 top-20 absolute">Ce nom d'article existe déjà !</h1>
+      <h1 *ngIf = "isMultiple" class="text-red-500 top-20 absolute">Vous pouvez modifier seulement un article à la fois !</h1>
+      
+      <div class="mt-8 text-center">
+          <label for="nom" class="mx-2 font-bold ">Nom : </label><input class="shadow-md rounded-full w-24 px-4 2xl:w-64" type="text" name = "nom" ngModel required> 
+          <label for="ucomp" class="mx-2 font-bold">Mesure:</label><input type="text" class="shadow-md w-16 2xl:w-16 rounded-full px-4 " name = "ucomp" ngModel>
+          <label for="peremDate" class="mx-2 font-bold">Peremption : </label><input type="date" class="shadow-md w-32 2xl:w-52 rounded-full px-4  " name = "peremDate" ngModel>
+          
+          <button class="bg-green-700 w-28" type="submit" [disabled] = "f.invalid" (click) = "ajouter()">Ajouter</button>
+          <button type="submit" class="bg-red-700 my-4 w-28" (click) = "supprimer()">Supprimer</button>
+          <button type="submit" class="bg-blue-700 my-4 w-28" (click) = "modifier()" >Modifier</button> 
+      </div>
+    </div>
+    <div class="flex flex-col px-2   ">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden sm:rounded-lg ">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-black">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    Nom
+                  </th>
+                  
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    DATE DE PEREMPTION
+                  </th>
+                  
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    Unité de mesure
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    Ajouté le
+                  </th>
+                  
+                  
+                  
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200" *ngFor = 'let article of articles'>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    {{article.id}} 
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input class="checkbox border border-gray-600" type="checkbox" [name]="article.Nom" ngModel>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full">
+                      {{article.Nom | titlecase }}
+                    </span>
+                  </td>
+                  
+                  <td class="px-6 py-4 whitespace-nowrap text-md text-gray-500">
+                    <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-yellow-100 text-green-800">
+                      {{article.Perem_Date}}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{article.Ucomp | uppercase}}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{article.Add_Date}}
+                  </td>
+                  
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>

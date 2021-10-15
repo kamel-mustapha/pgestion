@@ -1,0 +1,49 @@
+.articles {
+  max-height: 30em;
+  min-height: 30em;
+}
+@media screen and (min-width: 1536px) {
+  .articles {
+    max-height: 50em;
+    min-height: 50em;
+  }
+  .articles1 {
+    min-width: 40em;
+  }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input {
+  @apply rounded-full p-2;
+}
+
+input:focus {
+  border: none;
+  outline: unset;
+  background-color: unset;
+  @apply rounded-full p-2;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.succes {
+  background-color: #4caf50; /* Green */
+}
+.danger {
+  background-color: #af4c4c;
+}
+.teal {
+  background-color: #003341e8;
+}

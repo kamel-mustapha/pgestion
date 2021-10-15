@@ -1,0 +1,52 @@
+@page {
+  size: auto;
+  margin: 5mm;
+}
+@media screen {
+  .container {
+  }
+
+  .croix {
+  }
+  .BL {
+    position: absolute;
+    top: 5%;
+    left: 0;
+
+    background-color: white;
+    border: 1px solid black;
+    width: 100%;
+  }
+}
+@media print {
+  .container {
+    display: none;
+  }
+
+  .BL {
+    padding-top: 2%;
+  }
+
+  .croix {
+    display: none;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 5% 25% 15% 10% 15% 15% 15%;
+  font-size: xx-small;
+}
+.fontxs {
+  font-size: xx-small;
+}
+.button {
+  background-color: #003341e8;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

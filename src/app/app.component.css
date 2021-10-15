@@ -1,0 +1,19 @@
+@media screen {
+  .container {
+    display: grid;
+    grid-template-columns: 15% 85%;
+  }
+  .sidebar {
+  }
+}
+@media print {
+  .sidebar {
+    display: none;
+  }
+  .container {
+    display: block;
+  }
+  .content {
+    padding: 0%;
+  }
+}

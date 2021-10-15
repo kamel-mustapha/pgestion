@@ -1,0 +1,29 @@
+<div class="container shadow-lg bg-black text-white  rounded-2xl px-4 py-4 flex justify-between">
+  <h1 class="font-bold  text-xl py-2 ">Bonjour, {{user.Nom |titlecase}} <br>
+  <span class="text-sm text-gray-500">{{user.Activite}}</span></h1>
+  <h1 class="font-bold  text-xl   rounded-2xl px-2 py-4 "><a routerLink="/reglages">Modifier profil</a></h1>
+</div>
+
+<h1 class="font-bold font-serif text-gray-700 text-2xl my-8 ">Statistiques</h1>
+<div class=" w-full flex text-center ">
+    
+      <div class="w-1/2 h-96">
+        <h1 class="font-bold text-2xl mb-8">Annuel</h1>
+        <canvas  baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        
+        chartType=bar
+        >
+        </canvas></div>
+      <div class="w-1/2 h-96">
+        <h1 class="font-bold text-2xl mb-8">Produits les plus vendus</h1>
+        <canvas baseChart
+        [data]="pieChartData"
+        [labels]="pieChartLabels"
+        chartType="pie"></canvas>
+      </div>
+    
+  </div>

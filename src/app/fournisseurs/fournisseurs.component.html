@@ -1,0 +1,179 @@
+<div class="container relative">
+    <h1 class="text-3xl font-bold text-gray-700 font-serif">FOURNISSEURS</h1>
+    <div (click) = showAdd() class="inline-block my-4 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter un fournisseur</div>
+    <!-- Fournisseurs liste -->
+    <div class="z-10 absolute w-full">
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg ">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-black">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Nom
+                                    </th>
+                                    
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Code fournisseur
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Numéro de téléphone
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Ville
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Adresse
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Ajouté le
+                                    </th>
+                                    
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" *ngFor = 'let fournisseur of fournisseurs'>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://fac.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2Ffac.2F2020.2F06.2F26.2F10b9e228-d3cf-471c-9eff-fc12a09752e5.2Ejpeg/1200x1200/quality/80/crop-from/center/pourquoi-il-ne-faut-plus-acheter-de-baguette-de-pain-blanche.jpeg" alt="">
+                                            </div> -->
+                                            <div class="ml-4 ">
+                                                <div class="text-md font-medium text-gray-900">
+                                                    <span *ngIf = "!isModify">{{fournisseur.Nom | titlecase }}</span>
+                                                    <form *ngIf = "isModify" class="">
+                                                        <input type="text">
+                                                    </form>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            {{fournisseur.Code}}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-red-100 text-green-800">
+                                            0{{fournisseur.Telephone}}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            {{fournisseur.Ville}}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-red-100 text-green-800">
+                                            {{fournisseur.Adresse | uppercase }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{fournisseur.Add_Date}}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span class="px-2 inline-flex text-md leading-5 font-semibold rounded-full  text-green-800">
+                                            <span class="mx-8 cursor-pointer text-blue-800" >Modifier</span> <span class="mx-8 cursor-pointer text-red-700" (click) = "onDelete(fournisseur.Nom)" >Supprimer</span>
+                                        </span>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Ajouter un fournisseur formulaire -->
+    <form *ngIf = "isAdd" class="shadow-2xl   z-40 absolute bg-white w-full" #f = "ngForm" (ngSubmit) = "onSubmit(f)">
+        <div (click) = "hideAdd()" class=" text-xl  text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
+        <div class="text-red-500" *ngIf = "isDuplicate">Ce fournisseur existe déjà!</div>
+        <div class="content py-4 px-8">
+            <div class="grid grid-cols-1 gap-6">
+                <label class="block">
+                    <span class="text-gray-700">* Nom et prénom :</span>
+                    <input name = "nom" ngModel required type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">* Code fournisseur :</span>
+                    <input
+                    name = "code"
+                    ngModel
+                    required
+                    type="number"
+                    class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
+                    />
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">* Téléphone : </span>
+                    <input name="telephone" ngModel required type="number" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">* Ville :</span>
+                    <select name="ville" ngModel class="block w-full mt-0 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" required>
+                        <option *ngFor = "let ville of villes">{{ville.ville}}</option>
+                    </select>
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">* Adresse :</span>
+                    <input name="adresse" ngModel required type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder=""  />
+                </label>
+                <label class="block">
+                    <span class="text-gray-700">Date de naissance :</span>
+                    <input
+                    name="naissance"
+                    ngModel
+                    type="date"
+                    class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
+                    />
+                </label>
+            </div>
+            
+            <div>
+                <label class="block">
+                    <span class="text-gray-700">Registre de commerce : </span>
+                    <input name="registre" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                
+                <label class="block">
+                    <span class="text-gray-700">Code fiscal : </span>
+                    <input name="fiscal" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                
+                <label class="block">
+                    <span class="text-gray-700">Numéro des impôts : </span>
+                    <input name="impot" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                
+                <label class="block">
+                    <span class="text-gray-700">Raison sociale : </span>
+                    <input name="raison" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                
+                <label class="block">
+                    <span class="text-gray-700">Spécialité : </span>
+                    <input name="specialite" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                
+                <label class="block">
+                    <span class="text-gray-700">Identité bancaire : </span>
+                    <input name="banque" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+                </label>
+                <button [disabled] = "f.invalid" type="submit" class="mt-16 w-full text-xl bg-gray-800 ">Ajouter</button>
+            </div>
+            
+        </div>
+    </form>
+    
+</div>
+

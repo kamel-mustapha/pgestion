@@ -1,0 +1,9 @@
+a {
+  @apply block mt-4;
+}
+.container {
+  background-color: #003341;
+}
+.teal {
+  color: rgb(153, 153, 153)
+}
