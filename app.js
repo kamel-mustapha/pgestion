@@ -100,6 +100,16 @@ db.run('CREATE TABLE Transactions(id INTEGER PRIMARY KEY, Articles TEXT, Client 
     return true
   }
 })
+
+
+//Creation of table Factures in DATABASE 
+
+
+db.run('CREATE TABLE Factures(id INTEGER PRIMARY KEY, Articles TEXT, Quantite TEXT, Prix TEXT, TVA TEXT, Client TEXT, APC TEXT, Add_Date DATE)', (err)=>{
+  if(err){
+    return true
+  }
+})
 //Server Part
 
 //GET ALL ARTICLES
@@ -152,25 +162,17 @@ appE.post('/modArticle', (req,res) =>{
     })
 
     if(req.body.nom){
-      nom = req.body.nom
+      nom = req.body.nom.toLowerCase().trim();
     } else { nom = article.Nom}
     if(req.body.peremDate){
       perem = req.body.peremDate
     } else { perem = article.Perem_Date}
-    if(req.body.prix){
-      prix = req.body.prix
-    } else { prix = article.Prix}
-    if(req.body.tva){
-      tva = req.body.tva
-    } else { tva = article.TVA}
     if(req.body.ucomp){
-      ucmp = req.body.ucomp
+      ucomp = req.body.ucomp
     } else { ucomp = article.Ucomp}
     
 
-    let ttc = ((req.body.prix*tva)/100)+req.body.prix
-
-    db.run(`UPDATE Articles SET Nom = ?, Perem_Date = ?, Prix = ?, TVA = ?, TTC = ?, Ucomp = ?  WHERE Nom = ?`, [nom , perem, prix, tva, ttc, ucomp, change], function(err) {
+    db.run(`UPDATE Articles SET Nom = ?, Perem_Date = ?, Ucomp = ?  WHERE Nom = ?`, [nom , perem, ucomp, change], function(err) {
       if (err) {
         return console.log(err.message);
       }
@@ -409,38 +411,38 @@ appE.post('/addAPC', (req,res) =>{
 
 //Modify APC
 appE.post('/modifyApc', (req,res) =>{
-  db.all(sqlAPC, [], (err, rows) => {
-    if (err) {
-      res.send("NOTOK") ;
-    }
-    let article = req.body.article
-    
-    let apc = rows.find(apc => {
-      return apc.Nom = req.body.apc
-    })
-    let index = apc.Articles.split(",").indexOf(article)
-    let quantity = apc.Quantite.split(",")
-    let reste = apc.Reste.split(",")
-    let prix = apc.Prix.split(",")
-    let tva = apc.TVA.split(",")
-    reste = reste.map(reste => {
-      return parseInt(reste)
-    })
-    reste[index] += req.body.quantite - quantity[index]
-    quantity[index] = req.body.quantite
-    prix[index] = req.body.prix
-    tva[index] = req.body.tva
-    
-
-    db.run(`UPDATE APC SET Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [quantity, reste, prix, tva, apc.Nom], function(err) {
+  db.serialize(()=>{
+    db.all(sqlAPC, [], (err, rows) => {
       if (err) {
-        return console.log(err.message);
+        res.send("NOTOK") ;
       }
+      let article = req.body.article
+ 
+      let apc = rows.find(apc => {
+        return apc.Nom === req.body.apc
+      })
+      let index = apc.Articles.split(",").indexOf(article)
+      let quantity = apc.Quantite.split(",")
+      let reste = apc.Reste.split(",")
+      let prix = apc.Prix.split(",")
+      let tva = apc.TVA.split(",")
+      reste = reste.map(reste => {
+        return parseInt(reste)
+      })
+      reste[index] += req.body.quantite - quantity[index]
+      quantity[index] = req.body.quantite
+      prix[index] = req.body.prix
+      tva[index] = req.body.tva
       
+      db.run(`UPDATE APC SET Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [quantity, reste, prix, tva, apc.Nom], function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        
+      });
+    
     });
-
-
-  });
+  })
   
   return res.json("OK")
 })
@@ -536,7 +538,6 @@ appE.post('/modifyTransaction', (req,res) =>{
     });
     return res.json("OK")
   })
-  
 
 
 
@@ -552,6 +553,7 @@ function createWindow () {
     
   })
   mainWindow.maximize()
+  // mainWindow.webContents.openDevTools();
   mainWindow.removeMenu();
   // and load the index.html of the app.
   mainWindow.loadFile(__dirname + '/dist/frontend/index.html')

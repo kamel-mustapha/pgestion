@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ServerService } from '../services/server.service';
 import Swal from 'sweetalert2'
+import { HostListener } from '@angular/core';
 @Component({
   selector: 'app-fournisseurs',
   templateUrl: './fournisseurs.component.html',
@@ -84,9 +85,9 @@ export class FournisseursComponent implements OnInit, OnDestroy {
       values => {this.fournisseurs = values}
       )
     }
-  ngOnDestroy(){
-    this.subscribe.unsubscribe()
-  }
+    ngOnDestroy(){
+      this.subscribe.unsubscribe()
+    }
     showAdd(){
       this.compteur++;
       if(this.compteur === 1){
@@ -95,7 +96,7 @@ export class FournisseursComponent implements OnInit, OnDestroy {
         this.hideAdd()
       }
     }
-    hideAdd(){
+    @HostListener('document:keydown.escape') hideAdd(){
       this.isAdd = false
       this.compteur = 0
     }

@@ -3,32 +3,14 @@ import { NgForm } from '@angular/forms';
 import { ServerService } from '../services/server.service';
 import Swal from 'sweetalert2'
 import { HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent implements OnInit, OnDestroy {
-  
-  constructor(private server : ServerService) { }
-  isModify : boolean = false;
-  totalHT : any
-  totalTVA : any
-
-  isApcModify : any = {}
-  articleToModify : any
-  apcToModify : any
-  isDuplicate : boolean = false;
-  isDuplicateAPC : boolean = false;
-  isAdd : boolean = false;
-  isAddApc : boolean = false;
-  isCC : boolean = false;
-  isAPC : boolean = false;
-  APCs : any[] = [];
-  clients : any[] = [];
   articles : any[] = [];
-  client : any;
-  articlesAPC : any ;
   date : any ;
   subscribe1 : any
   subscribe2 : any 
@@ -50,11 +32,41 @@ export class ClientsComponent implements OnInit, OnDestroy {
           value => {this.APCs = value}
           )
         }
-  ngOnDestroy(){
-    this.subscribe1.unsubscribe()
-    this.subscribe2.unsubscribe()
-    this.subscribe3.unsubscribe()
-  }
+        onDelete(cantine : any){
+          
+          let cantineObj = {
+            cantine : cantine
+          }
+          let cantineJson = JSON.stringify(cantineObj); 
+          
+          Swal.fire({
+            title: 'Confirmation',
+            text: 'Etes vous sûr de vouloir supprmier ce client ?',
+            confirmButtonColor: "#227f98",
+            confirmButtonText: 'Oui',
+            cancelButtonText : 'Non',
+            showCancelButton : true ,
+            
+          }).then(value=>{
+            if(value['isConfirmed']){
+              this.server.deleteClient(cantineJson).subscribe()
+              setTimeout(()=>{
+                this.ngOnInit()
+              },10)
+            }
+          })
+        }
+        ngOnDestroy(){
+          this.subscribe1.unsubscribe()
+          this.subscribe2.unsubscribe()
+          this.subscribe3.unsubscribe()
+        }
+        constructor(private server : ServerService, private router : Router) { }
+        
+        // Ajouter client
+        isDuplicate : boolean = false;
+        clients : any[] = [];
+        isAdd : boolean = false;
         showAdd(){
           this.isAdd = true;
           this.hideAddApc()
@@ -62,34 +74,6 @@ export class ClientsComponent implements OnInit, OnDestroy {
         }
         hideAdd(){
           this.isAdd = false
-        }
-        showAddApc(){
-          this.isAddApc = true;
-          this.hideAdd()
-          this.hideCC()
-          
-        }
-        hideAddApc(){
-          this.isAddApc = false
-        }
-        showCC(){
-          this.isCC = true;
-          this.hideAdd()
-          this.hideAddApc()
-        }
-        hideCC(){
-          this.isCC = false;
-        }
-        onModifyApc(nom : any){
-          this.isApcModify[nom] = true
-          this.articleToModify = nom
-        }
-        submitApc(form : NgForm){
-          this.isApcModify = {}
-          form.value.article = this.articleToModify
-          form.value.apc = this.apcToModify
-          this.server.modifyApc(form.value).subscribe()
-          this.isCC = false
         }
         onSubmit(form : NgForm){
           let client = this.clients.find((client)=>{
@@ -118,6 +102,19 @@ export class ClientsComponent implements OnInit, OnDestroy {
             }
           };
           
+          
+          // Ajouter APC
+          isAddApc : boolean = false;
+          isDuplicateAPC : boolean = false;
+          showAddApc(){
+            this.isAddApc = true;
+            this.hideAdd()
+            this.hideCC()
+            
+          }
+          hideAddApc(){
+            this.isAddApc = false
+          }
           onSubmitAPC(form : NgForm){
             
             let liste : any = []
@@ -137,7 +134,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
                 tva.push(form.value["tva"+article.Nom])
               }
             })
-           
+            
             let obje = {
               nom  : form.value.nom,
               articles : liste,
@@ -159,40 +156,34 @@ export class ClientsComponent implements OnInit, OnDestroy {
             }
           }
           
-          onDelete(cantine : any){
-            
-            let cantineObj = {
-              cantine : cantine
-            }
-            let cantineJson = JSON.stringify(cantineObj); 
-            
-            Swal.fire({
-              title: 'Confirmation',
-              text: 'Etes vous sûr de vouloir supprmier ce client ?',
-              confirmButtonColor: "#227f98",
-              confirmButtonText: 'Oui',
-              cancelButtonText : 'Non',
-              showCancelButton : true ,
-              
-            }).then(value=>{
-              if(value['isConfirmed']){
-                this.server.deleteClient(cantineJson).subscribe()
-                setTimeout(()=>{
-                  this.ngOnInit()
-                },10)
-              }
-            })
+          
+          // Afficher Modifier les APC
+          isAPC : boolean = false;
+          apcToModify : any
+          isApcModify : any = {}
+          articleToModify : any
+          totalHT : any
+          totalTVA : any
+          isCC : boolean = false;
+          APCs : any[] = [];
+          articlesAPC : any ;
+          showCC(){
+            this.isCC = true;
+            this.hideAdd()
+            this.hideAddApc()
+          }
+          hideCC(){
+            this.isCC = false;
           }
           onSubmitAP(form : NgForm){
             this.totalHT = 0
             this.totalTVA = 0
-     
             this.isAPC = true;
             let liste : any = [];
             let apc = this.APCs.find((apc:any) =>{
               return apc.Nom == form.value.apc.toLowerCase().trim()
             })
-       
+            
             this.apcToModify = apc.Nom
             let articles = apc.Articles.split(",")
             let quantite = apc.Quantite.split(",")
@@ -209,13 +200,60 @@ export class ClientsComponent implements OnInit, OnDestroy {
                 prix : prix[index],
                 tva : tva[index]
               };
-              this.totalHT += parseInt(obj.prix)*parseInt(obj.quantite)
-              this.totalTVA += ((parseInt(obj.tva)*parseInt(obj.prix))/100)*parseInt(obj.quantite)
+              console.log(obj)
+              this.totalHT += obj.prix*obj.quantite
+              this.totalTVA += ((obj.tva*obj.prix)/100)*obj.quantite
               liste.push(obj)
             });
             
-            
             this.articlesAPC = liste
           }
+          submitApc(form : NgForm){
+            this.isApcModify = {}
+            form.value.article = this.articleToModify
+            form.value.apc = this.apcToModify
+            this.isAPC = false;
+            this.hideCC()
+            this.server.modifyApc(form.value).subscribe()
+            setTimeout(()=>{
+              this.ngOnInit()
+            },100)
+            
+          }
+          onModifyApc(nom : any){
+            this.isApcModify[nom] = true
+            this.articleToModify = nom
+          }
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
         }
         

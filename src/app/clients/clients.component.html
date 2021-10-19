@@ -1,8 +1,9 @@
 <div class="max-h-full relative">
     <h1 class="text-3xl font-bold text-gray-700 font-serif">CLIENTS</h1>
+    <!-- Les 3 menus -->
     <div class="flex justify-around">
         <div (click) = showAdd() class="inline-block my-4 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter un client</div>
-        <div (click) = showAddApc() class="inline-block my-4 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter une APC</div>
+        <div (click) = showAddApc() class="inline-block my-4 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter un cahier de charge</div>
         <div (click) = showCC() class="inline-block my-4 cursor-pointer text-blue-500 font-bold">Afficher les cachiers de charge</div>
     </div>
     <!-- Clients liste -->
@@ -12,14 +13,14 @@
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg ">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-black">
+                            <thead class="bg-blue-900">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        APC
+                                        Cahier de charge
                                     </th>
                                     
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Cantine
+                                        Client
                                     </th>
                                     
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -65,8 +66,8 @@
         
     </div>
     <!-- Show cachier de charges -->
-    <div *ngIf = "isCC"  class="shadow-2xl  z-40 absolute bg-white w-full">
-        <div (click) = "hideCC()" class=" text-xl text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
+    <div *ngIf = "isCC"  class="shadow-2xl  z-40 absolute top-0 bg-white w-full border border-black">
+        <div (click) = "hideCC()" class=" text-center w-6 h-8 text-xl top-2 left-2 text-white cursor-pointer z-20 inline-block bg-red-500"><i class="fas fa-times"></i></div>
         <form  #f2 = "ngForm" (ngSubmit) = "onSubmitAP(f2)" class="px-4">
             <div class="py-4 ">
                 <div class="grid grid-cols-1 gap-6">
@@ -89,43 +90,43 @@
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">Total Hors Taxe : </span> {{totalHT | number : '1.2-2'}} DA</h1>
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">Total TVA : </span> {{totalTVA | number : '1.2-2'}} DA</h1>
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">TTC : </span> {{totalHT + totalTVA | number : '1.2-2'}} DA</h1>
-            <div class="articles flex flex-col overflow-auto overflow-x-hidden px-4">
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="articles flex flex-col  px-4">
+                <div class="-my-2  sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <div class="shadow  border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
-                                <thead class='bg-black'>
+                                <thead class='bg-blue-900'>
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             
                                         </th>
                                         
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Articles
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Prix
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             TVA
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Restant
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Reste
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Cahier de charge
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             
                                         </th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200"  *ngFor = "let article of articlesAPC; let i = index">
-                                   
+                                    
                                     <tr>
                                         
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -139,7 +140,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                       
+                                        
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 
@@ -156,12 +157,13 @@
                                                 {{article.prix }}
                                                 
                                             </span>
-                                            <input required *ngIf = "isApcModify[article.nom]" type="number" name="prix" class="w-16 rounded-full" ngModel>
-                                        </td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <input required *ngIf = "isApcModify[article.nom]" type="number" name="prix" class="w-20 rounded-full" [ngModel] = "article.prix">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-green-800">
                                                 {{article.tva }}
                                             </span>
-                                            <select required *ngIf = "isApcModify[article.nom]" name = "tva" ngModel class="w-16 rounded-full">
+                                            <select required *ngIf = "isApcModify[article.nom]" name = "tva" [ngModel] = "article.tva" class="w-20 rounded-full">
                                                 <option>0</option>
                                                 <option>9</option>
                                                 <option>19</option>
@@ -170,167 +172,172 @@
                                         
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-green-800">
-                                                {{article.reste | uppercase}}
-                                                
+                                                {{article.reste}}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-green-800">
-                                                {{article.quantite | uppercase}}
+                                                {{article.quantite}}
                                             </span>
-                                            <input required *ngIf  = "isApcModify[article.nom]" type="number" name="quantite" class="w-16 rounded-full" ngModel>
+                                            <input required *ngIf  = "isApcModify[article.nom]" type="number" name="quantite" class="w-20 rounded-full" [ngModel] = "article.quantite">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <button *ngIf = "isApcModify[article.nom]" type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
-                                         </td>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                           <span class="text-blue-600 cursor-pointer" (click) = "onModifyApc(article.nom)">Modifier</span>
+                                            <span class="text-blue-600 cursor-pointer" (click) = "onModifyApc(article.nom)">Modifier</span>
                                         </td>
                                         
                                     </tr>
-                            
+                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-  
+            
         </form>
     </div>
     
     
     <!-- Ajouter un Client formulaire -->
-    <form *ngIf = "isAdd" class="shadow-2xl z-40 absolute bg-white w-full" #f = "ngForm" (ngSubmit) = "onSubmit(f)">
-        <div (click) = "hideAdd()" class=" text-xl  text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
-        <div class="text-red-500 py-4 px-4 " *ngIf = "isDuplicate">Cette cantine existe déjà!</div>
+    <form *ngIf = "isAdd" class="shadow-2xl z-40 absolute top-0 bg-white w-full border border-black" #f = "ngForm" (ngSubmit) = "onSubmit(f)">
+        <div (click) = "hideAdd()" class=" text-center w-6 h-8 text-xl top-2 left-2 text-white cursor-pointer z-20 inline-block bg-red-500"><i class="fas fa-times"></i></div>
+        <div class="text-red-500 py-4 px-4 " *ngIf = "isDuplicate">Ce client existe déjà!</div>
         <div >
             <div class="grid grid-cols-1 gap-6 py-4 px-4 ">
                 <label class="block">
-                    <span class="text-gray-700">APC : </span>
+                    <span class="text-gray-700">Cahier de charge : </span>
                     <select name="apc" class="border-gray-400 rounded-full outline-none" ngModel required>
                         <option>...</option>
                         <option *ngFor = "let apc of APCs">{{apc.Nom | titlecase}}</option>
                     </select>
                 </label>
                 <label class="block">
-                    <span class="text-gray-700">Cantine :</span>
+                    <span class="text-gray-700">Client :</span>
                     <input name = "cantine" ngModel required type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
                 </label>
             </div>
-            <button [disabled] = "f.invalid" type="submit" class="button mt-16 w-full text-xl bg-gray-800 ">Ajouter</button>
+            <button [disabled] = "f.invalid" type="submit" class="button mt-16 w-full text-xl bg-blue-900 ">Ajouter</button>
         </div>
     </form>
     
-    <form *ngIf = "isAddApc" class="container shadow-2xl container overflow-auto z-40 absolute bg-white w-full" #f1 = "ngForm" (ngSubmit) = "onSubmitAPC(f1)">
-        <div (click) = "hideAddApc()" class=" text-xl  text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
-        <div class="text-red-500" *ngIf = "isDuplicateAPC">Le nom de l'APC existe déjà!</div>
-        <div>
-            <div class="gap-6 px-4 py-4">
-                <label class="block">
-                    <span class="text-gray-700 font-bold">Nom :</span>
-                    <input name = "nom" ngModel required type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
-                </label>
-                
-                <h1 class="font-bold mt-4">Cahier de charge :</h1>
-                <label for="time" class = "text-red-700  inline font-bold">Date : </label>
-                <input type="date" name="time" class=" px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" ngModel>
-                
-                <div class="  articles flex flex-col overflow-x-hidden">
-                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class='bg-black'>
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+    
+    <!-- Ajouter CC FORMULAIRE  -->
+    <form *ngIf = "isAddApc" class="container shadow-2xl container overflow-auto z-40 absolute top-0 bg-white w-full border border-black" #f1 = "ngForm" (ngSubmit) = "onSubmitAPC(f1)">
+        <div (click) = "hideAddApc()" class=" text-center w-6 h-8 mb-10 text-xl top-2 left-2 text-white cursor-pointer z-20 inline-block bg-red-500"><i class="fas fa-times"></i></div>
+        
+        <div class="px-4 bg-white z-50 ">
+            <div class="text-red-500 " *ngIf = "isDuplicateAPC">Le nom de l'APC existe déjà!</div>
+            <label class="block">
+                <span class="text-gray-700 font-bold">Nom :</span>
+                <input name = "nom" ngModel required type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
+            </label>
+            <label for="time" class = "text-red-700  inline font-bold">Date : </label>
+            <input type="date" name="time" class="mt-8 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" ngModel>
+            
+        </div>
+        
+        <div class="flex flex-col justify-between">
+            <div class="  articles flex flex-col overflow-auto overflow-x-hidden h-80   px-4 py-4 h96">
+                <div class=" sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class='bg-blue-900'>
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Article
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Quantité
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Prix
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            TVA
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" *ngFor = 'let article of articles'>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
                                                 
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Article
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Quantité
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Prix
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                TVA
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200" *ngFor = 'let article of articles'>
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    
-                                                    <div class="ml-4 ">
-                                                        <div class="text-sm font-medium text-gray-900">
-                                                            {{article.id}}
-                                                        </div>
-                                                        
+                                                <div class="ml-4 ">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        {{article.id}}
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
                                                     
-                                                    <div class="ml-4 ">
-                                                        <div class="text-sm font-medium text-gray-900">
-                                                            {{article.Nom | uppercase}}
-                                                        </div>
-                                                        
-                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                
+                                                <div class="ml-4 ">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        {{article.Nom | uppercase}}
+                                                    </div>
                                                     
-                                                    <div class="ml-4 ">
-                                                        <div class="text-sm font-medium text-gray-900">
-                                                            <input ngModel  type="number" class="w-20 border-gray-400 outline-none " [name] = 'article.Nom'>
-                                                        </div>
-                                                        
-                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                
+                                                <div class="ml-4 ">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <input ngModel  type="number" class="w-20 border-gray-400 outline-none rounded-full" [name] = 'article.Nom'>
+                                                    </div>
                                                     
-                                                    <div class="ml-4 ">
-                                                        <div class="text-sm font-medium text-gray-900">
-                                                            <input ngModel  type="number" class="w-20 border-gray-400 outline-none " [name] = '"prix" + article.Nom '>
-                                                        </div>
-                                                        
-                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                
+                                                <div class="ml-4 ">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <input ngModel  type="number" class="w-20 border-gray-400 outline-none rounded-full" [name] = '"prix" + article.Nom '>
+                                                    </div>
                                                     
-                                                    <div class="ml-4 ">
-                                                        <div class="text-sm font-medium text-gray-900">
-                                                            <select [name] = '"tva" + article.Nom ' ngModel>
-                                                                <option>0</option>
-                                                                <option>9</option>
-                                                                <option>19</option>
-                                                            </select>
-                                                        </div>
-                                                        
-                                                    </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                
+                                                <div class="ml-4 ">
+                                                    <div class="text-sm font-medium text-gray-900 ">
+                                                        <select [name] = '"tva" + article.Nom ' class="rounded-full" ngModel>
+                                                            <option>0</option>
+                                                            <option>9</option>
+                                                            <option>19</option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <button [disabled] = "f1.invalid" type="submit" class="button mt-16 w-full text-xl bg-gray-800">Ajouter</button>
+            <div ><button [disabled] = "f1.invalid" type="submit" class="button  w-full  text-xl bg-blue-900">Ajouter</button></div>
         </div>
+        
+        
+        
+        
     </form>
     
     

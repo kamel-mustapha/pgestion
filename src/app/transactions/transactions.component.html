@@ -7,7 +7,7 @@
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden sm:rounded-lg ">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-black">
+                        <thead class="bg-blue-900">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     
@@ -71,7 +71,7 @@
 
 <div  *ngIf = "isBl"  class="BL" >
     <div class="croix flex justify-between">
-        <div (click) = "hideBl()"  class=" text-xl top-2 left-2 text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
+        <div (click) = "hideBl()"  class=" text-center w-6 h-8 text-xl top-2 left-2 text-white cursor-pointer z-20 inline-block bg-red-500"><i class="fas fa-times"></i></div>
         <button class="button w-32 " (click) = "onPrint()">Imprimer</button>
     </div>
     <div class=" grid grid-cols-2 gap-16 fontxs mx-8">
@@ -83,8 +83,8 @@
                 <span class = "font-bold">Bon de livraison N° :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.id}}</span>&nbsp;
                 <span class = "font-bold">Date :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Add_Date }}</span><br>
                 <span class = "font-bold">Doit :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.APC | titlecase}}</span>&nbsp;
-                <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Client | titlecase}}</span>&nbsp;
-                <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp;{{trimestre | titlecase}}</span>
+                <!-- <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Client | titlecase}}</span>&nbsp; -->
+                <!-- <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp;{{trimestre | titlecase}}</span> -->
             </div>
             
             <div class="content text-center">
@@ -127,8 +127,8 @@
                 <span class = "font-bold">Bon de livraison N° :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.id}}</span>&nbsp;
                 <span class = "font-bold">Date :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Add_Date }}</span><br>
                 <span class = "font-bold">Doit :&nbsp;&nbsp;&nbsp;&nbsp; {{transac.APC | titlecase}}</span>&nbsp;
-                <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Client | titlecase}}</span>&nbsp;
-                <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp;{{trimestre | titlecase}}</span>
+                <!-- <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp; {{transac.Client | titlecase}}</span>&nbsp; -->
+                <!-- <span class = "font-bold">&nbsp;&nbsp;&nbsp;&nbsp;{{trimestre | titlecase}}</span> -->
             </div>
             
             <div class="content text-center">

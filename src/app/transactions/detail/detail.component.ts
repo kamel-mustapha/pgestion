@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Observable} from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -19,7 +20,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   isModify : any = {}
   toModify : any 
   subscribe : any
-  constructor(private server : ServerService, private route : ActivatedRoute) { }
+  constructor(private server : ServerService, private route : ActivatedRoute, private router : Router) { }
 
   ngOnInit(): void {
    
@@ -85,8 +86,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
 
     this.server.modifyTransaction(obje).subscribe()
+    this.router.navigate(["/transactions"])
     
-      this.ngOnInit()
  
   }
 

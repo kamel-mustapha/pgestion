@@ -1,5 +1,4 @@
 .button {
-
   border: none;
   color: white;
   padding: 15px 32px;
@@ -7,6 +6,7 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  top: 92%;
 }
 
 input {
@@ -15,7 +15,8 @@ input {
 option {
   @apply bg-gray-200;
 }
-
-.container {
-  max-height: 40em;
+@media (min-width: 1536px) {
+  .h96 {
+    height: 38rem /* 384px */;
+  }
 }

@@ -20,7 +20,9 @@ import { ReglagesComponent } from './reglages/reglages.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ClientsComponent } from './clients/clients.component';
 import { DetailComponent } from './transactions/detail/detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FonctionsService } from './services/fonctions.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,10 +42,11 @@ import { DetailComponent } from './transactions/detail/detail.component';
     AppRoutingModule,
     ChartsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
     
   ],
-  providers: [ServerService],
+  providers: [ServerService, FonctionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

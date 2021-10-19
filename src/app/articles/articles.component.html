@@ -1,6 +1,6 @@
 <main >
   <form #f = ngForm (ngSubmit) = onSubmit(f)>
-    <div class=" 2xl:w-full  top-0 bg-white">
+    <div class="py-8 top-0 pr-20 2xl:pr-96 2xl:w-full bg-white fixed ">
       <h1 class="text-3xl font-bold text-gray-700 font-serif">ARTICLES</h1>
       <h1 *ngIf = "isDuplicate" class="text-red-500 top-20 absolute">Ce nom d'article existe déjà !</h1>
       <h1 *ngIf = "isMultiple" class="text-red-500 top-20 absolute">Vous pouvez modifier seulement un article à la fois !</h1>
@@ -15,12 +15,12 @@
           <button type="submit" class="bg-blue-700 my-4 w-28" (click) = "modifier()" >Modifier</button> 
       </div>
     </div>
-    <div class="flex flex-col px-2   ">
+    <div class="flex flex-col px-2  mt-52 ">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden sm:rounded-lg ">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-black">
+              <thead class="bg-blue-900">
                 <tr>
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                     

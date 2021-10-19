@@ -24,9 +24,9 @@ export class ArticlesComponent implements OnInit, OnDestroy {
       values => {this.articles = values}
       )
     }
-  ngOnDestroy(){
-    this.subscribe.unsubscribe()
-  }
+    ngOnDestroy(){
+      this.subscribe.unsubscribe()
+    }
     onSubmit(form : NgForm){
       //Ajouter un article
       if(this.isAjouter){
@@ -94,7 +94,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         if(compteur === 1 && duplicate === 0){
           let obje : any 
           this.isMultiple = false
-         
+          
           this.articles.forEach(article =>{
             if(form.value[article.Nom] && form.value[article.Nom] != null ){
               

@@ -2,13 +2,13 @@
     <h1 class="text-3xl font-bold text-gray-700 font-serif">FOURNISSEURS</h1>
     <div (click) = showAdd() class="inline-block my-4 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter un fournisseur</div>
     <!-- Fournisseurs liste -->
-    <div class="z-10 absolute w-full">
+    <div class="z-10 absolute pl-10 2xl:pl-0 w-full">
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg ">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-black">
+                            <thead class="bg-blue-900">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                         Nom
@@ -95,8 +95,8 @@
     </div>
     
     <!-- Ajouter un fournisseur formulaire -->
-    <form *ngIf = "isAdd" class="shadow-2xl   z-40 absolute bg-white w-full" #f = "ngForm" (ngSubmit) = "onSubmit(f)">
-        <div (click) = "hideAdd()" class=" text-xl  text-red-700 cursor-pointer z-20 inline-block"><i class="fas fa-times"></i></div>
+    <form *ngIf = "isAdd" class="shadow-2xl   z-40 absolute bg-white w-full border border-black" #f = "ngForm" (ngSubmit) = "onSubmit(f)">
+        <div (click) = "hideAdd()" class="text-center w-6 h-8 text-xl top-2 left-2 text-white cursor-pointer z-20 inline-block bg-red-500"><i class="fas fa-times"></i></div>
         <div class="text-red-500" *ngIf = "isDuplicate">Ce fournisseur existe déjà!</div>
         <div class="content py-4 px-8">
             <div class="grid grid-cols-1 gap-6">
@@ -169,7 +169,7 @@
                     <span class="text-gray-700">Identité bancaire : </span>
                     <input name="banque" ngModel type="text" class="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black" placeholder="" />
                 </label>
-                <button [disabled] = "f.invalid" type="submit" class="mt-16 w-full text-xl bg-gray-800 ">Ajouter</button>
+                <button [disabled] = "f.invalid" type="submit" class="mt-16 w-full text-xl bg-blue-900 ">Ajouter</button>
             </div>
             
         </div>
