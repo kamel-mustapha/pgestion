@@ -41,6 +41,7 @@
                                     <span class="px-2 inline-flex text-md font-semibold rounded-full text-gray-600">
                                         <h1 class="mt-2">{{transaction.Add_Date}}</h1>
                                         <h1 class="mx-4 mt-2 text-blue-700 cursor-pointer" (click) = "onModify(transaction.id)">Modifier</h1>
+                                        <h1 class="mx-4 mt-2 text-red-700 cursor-pointer" (click) = "onDelete(transaction.APC, transaction.id, transaction.Articles)">Supprimer</h1>
                                         <form *ngIf = "isModify[transaction.id]" class="flex" (ngSubmit) = "onSubmitDate(fDate, transaction.id)" #fDate = "ngForm">
 
                                             <input  type="date" name="date" class="border-gray-200 rounded-full" ngModel required>

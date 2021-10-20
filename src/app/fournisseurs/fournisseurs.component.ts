@@ -113,9 +113,7 @@ export class FournisseursComponent implements OnInit, OnDestroy {
         }
       })
       if(!this.isDuplicate){
-        this.server.addFournisseur(form.value).subscribe(
-          value => {console.log(value)}
-          )
+        this.server.addFournisseur(form.value).subscribe()
           this.hideAdd()
           setTimeout(()=>{
             // location.reload();
@@ -134,7 +132,7 @@ export class FournisseursComponent implements OnInit, OnDestroy {
         Swal.fire({
           title: 'Confirmation',
           text: 'Etes vous sûr de vouloir supprmier ce fournisseur ?',
-          confirmButtonColor: "#227f98",
+          confirmButtonColor: "#bc0000",
           confirmButtonText: 'Oui',
           cancelButtonText : 'Non',
           showCancelButton : true ,

@@ -1,0 +1,6 @@
+input {
+  @apply px-2 rounded-full my-4 mx-4;
+}
+select {
+  @apply rounded-full my-4 mx-4;
+}

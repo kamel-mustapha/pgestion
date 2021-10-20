@@ -11,7 +11,7 @@ const sqlUtilisateur = "SELECT id ,Nom , Ville, Commune , Adresse , Inspection, 
 const sqlClient = "SELECT APC , Cantine, Add_Date FROM Clients"
 const sqlAPC = "SELECT Nom, Articles, Quantite, Reste, Prix, TVA, Add_Date FROM APC"
 const sqlTransaction = "SELECT id , Articles, Client, APC, Add_Date FROM Transactions"
-const cors = require('cors')
+const cors = require('cors');
 const server = appE.listen(5400)
 
 // middleware
@@ -134,10 +134,10 @@ appE.post('/addArticle', (req,res) =>{
   } else { perem = "-"}
   
   if(req.body.ucomp){
-    ucomp = req.body.ucomp
+    ucomp = req.body.ucomp.toLowerCase().trim()
   } else { ucomp = "-"}
   
- 
+  
   
   db.run(`INSERT INTO Articles(Nom, Perem_Date, Ucomp, Add_Date ) VALUES(?, ? , ?, ?)`, [nom,perem,ucomp,time], function(err) {
     if (err) {
@@ -160,7 +160,7 @@ appE.post('/modArticle', (req,res) =>{
     let article = rows.find(row=>{
       return row.Nom === req.body.toModify.toLowerCase().trim();
     })
-
+    
     if(req.body.nom){
       nom = req.body.nom.toLowerCase().trim();
     } else { nom = article.Nom}
@@ -171,7 +171,7 @@ appE.post('/modArticle', (req,res) =>{
       ucomp = req.body.ucomp
     } else { ucomp = article.Ucomp}
     
-
+    
     db.run(`UPDATE Articles SET Nom = ?, Perem_Date = ?, Ucomp = ?  WHERE Nom = ?`, [nom , perem, ucomp, change], function(err) {
       if (err) {
         return console.log(err.message);
@@ -318,14 +318,14 @@ appE.post('/addUser', (req,res) =>{
       if(req.body.activite){
         activite = req.body.activite
       } else { activite = user.Activite}
-
+      
       db.run(`UPDATE Utilisateur SET Nom = ?, Ville = ?, Commune = ?, Adresse = ?, Inspection = ?, Recette = ?, NIF = ?, NIS = ?, ART = ?, Banque = ?, Nbanque = ?, Nregistre = ?, Activite = ?  WHERE ID = 1`, [nom,ville,commune,adresse,inspection,recette,nif,nis,art,banque,nbanque,nregistre,activite], function(err) {
         if (err) {
           return console.log(err.message);
         }
         
       });
-
+      
       db.all(sqlUtilisateur, [], (err, rows) => {
         if (err) {
           res.send("NOTOK") ;
@@ -333,211 +333,322 @@ appE.post('/addUser', (req,res) =>{
         }
         return res.json(rows[0])
       });
+    })
+    
+  })})
+  
+  
+  //GET ALL Clients
+  appE.get('/clients', (req, res)=>{
+    
+    db.all(sqlClient, [], (err, rows) => {
+      if (err) {
+        return res.send("NOTOK") ;
+      }
+      return res.json(rows)
+    });
+  });
+  //POST ONE Client
+  appE.post('/addClient', (req,res) =>{
+    let today = new Date();
+    let time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() + ' à ' + today.getHours() + ":" + today.getMinutes();
+    let apc = req.body.apc.toLowerCase().trim()
+    let cantine = req.body.cantine.toLowerCase().trim()
+    db.run(`INSERT INTO Clients(APC, Cantine, Add_Date ) VALUES(?, ?, ?)`, [apc,cantine,time], function(err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      
+    });
+    return res.json("Ok")
   })
- 
-})})
-
-
-//GET ALL Clients
-appE.get('/clients', (req, res)=>{
   
-  db.all(sqlClient, [], (err, rows) => {
-    if (err) {
-      return res.send("NOTOK") ;
-    }
-    return res.json(rows)
-  });
-});
-//POST ONE Client
-appE.post('/addClient', (req,res) =>{
-  let today = new Date();
-  let time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() + ' à ' + today.getHours() + ":" + today.getMinutes();
-  let apc = req.body.apc.toLowerCase().trim()
-  let cantine = req.body.cantine.toLowerCase().trim()
-  db.run(`INSERT INTO Clients(APC, Cantine, Add_Date ) VALUES(?, ?, ?)`, [apc,cantine,time], function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
+  //Delete Client
+  appE.post('/delClient', (req,res) =>{
     
-  });
-  return res.json("Ok")
-})
-
-//Delete Client
-appE.post('/delClient', (req,res) =>{
-  
-  let cantine = req.body.cantine.toLowerCase().trim()
-  
-  db.run(`DELETE FROM Clients WHERE Cantine = ?`, [cantine], function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
+    let cantine = req.body.cantine.toLowerCase().trim()
     
+    db.run(`DELETE FROM Clients WHERE Cantine = ?`, [cantine], function(err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      
+      
+    });
+    return res.json("Deleted")
+  })
+  //GET ALL APC
+  appE.get('/apc', (req, res)=>{
     
-  });
-  return res.json("Deleted")
-})
-//GET ALL APC
-appE.get('/apc', (req, res)=>{
-  
-  db.all(sqlAPC, [], (err, rows) => {
-    if (err) {
-      res.send("NOTOK") ;
-    }
-    return res.json(rows)
-  });
-  
-});
-//POST ONE APC
-appE.post('/addAPC', (req,res) =>{
-  let today = new Date();
-  if(req.body.time){
-    time = req.body.time
-  } else {time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() ;}
-  let nom = req.body.nom.toLowerCase().trim()
-  let articles = req.body.articles
-  let quantite = req.body.quantite
-  let reste = req.body.quantite
-  let prix = req.body.prix
-  let tva = req.body.tva
-  db.run(`INSERT INTO APC(Nom, Articles, Quantite, Reste, Prix, Tva, Add_Date) VALUES(?, ?, ?, ?, ?, ?, ?)`, [nom,articles,quantite, reste, prix, tva, time], function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
-    
-  });
-  return res.json("Ok")
-})
-
-//Modify APC
-appE.post('/modifyApc', (req,res) =>{
-  db.serialize(()=>{
     db.all(sqlAPC, [], (err, rows) => {
       if (err) {
         res.send("NOTOK") ;
       }
-      let article = req.body.article
- 
-      let apc = rows.find(apc => {
-        return apc.Nom === req.body.apc
-      })
-      let index = apc.Articles.split(",").indexOf(article)
-      let quantity = apc.Quantite.split(",")
-      let reste = apc.Reste.split(",")
-      let prix = apc.Prix.split(",")
-      let tva = apc.TVA.split(",")
-      reste = reste.map(reste => {
-        return parseInt(reste)
-      })
-      reste[index] += req.body.quantite - quantity[index]
-      quantity[index] = req.body.quantite
-      prix[index] = req.body.prix
-      tva[index] = req.body.tva
+      return res.json(rows)
+    });
+    
+  });
+  //POST ONE APC
+  appE.post('/addAPC', (req,res) =>{
+    let today = new Date();
+    if(req.body.time){
+      time = req.body.time
+    } else {time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() ;}
+    let nom = req.body.nom.toLowerCase().trim()
+    let articles = req.body.articles
+    let quantite = req.body.quantite
+    let reste = req.body.quantite
+    let prix = req.body.prix
+    let tva = req.body.tva
+    db.run(`INSERT INTO APC(Nom, Articles, Quantite, Reste, Prix, Tva, Add_Date) VALUES(?, ?, ?, ?, ?, ?, ?)`, [nom,articles,quantite, reste, prix, tva, time], function(err) {
+      if (err) {
+        return console.log(err.message);
+      }
       
-      db.run(`UPDATE APC SET Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [quantity, reste, prix, tva, apc.Nom], function(err) {
+    });
+    return res.json("Ok")
+  })
+  
+  //Modify APC
+  appE.post('/modifyApc', (req,res) =>{
+    db.serialize(()=>{
+      db.all(sqlAPC, [], (err, rows) => {
+        if (err) {
+          res.send("NOTOK") ;
+        }
+        let article = req.body.article
+        
+        let apc = rows.find(apc => {
+          return apc.Nom === req.body.apc
+        })
+        let index = apc.Articles.split(",").indexOf(article)
+        let quantity = apc.Quantite.split(",")
+        let reste = apc.Reste.split(",")
+        let prix = apc.Prix.split(",")
+        let tva = apc.TVA.split(",")
+        reste = reste.map(reste => {
+          return parseFloat(reste)
+        })
+        reste[index] += req.body.quantite - quantity[index]
+        quantity[index] = req.body.quantite
+        prix[index] = req.body.prix
+        tva[index] = req.body.tva
+        
+        db.run(`UPDATE APC SET Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [quantity, reste, prix, tva, apc.Nom], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+          
+        });
+        
+      });
+    })
+    
+    return res.json("OK")
+  })
+  
+  //Add Article to APC 
+  
+  appE.post('/addArticleApc', (req,res) =>{
+    db.serialize(()=>{
+      db.all(sqlAPC, [], (err, rows) => {
+        if (err) {
+          res.send("NOTOK") ;
+        }
+        let apc = rows.find(apc => {
+          return apc.Nom === req.body.apc
+        })
+        let articles = apc.Articles.split(",")
+        let quantity = apc.Quantite.split(",")
+        let reste = apc.Reste.split(",")
+        let prix = apc.Prix.split(",")
+        let tva = apc.TVA.split(",")
+        articles.push(req.body.article)
+        quantity.push(req.body.quantity)
+        reste.push(req.body.quantity)
+        prix.push(req.body.price)
+        tva.push(req.body.tva)
+        
+        db.run(`UPDATE APC SET Articles = ?, Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [articles, quantity, reste, prix, tva, apc.Nom], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+          
+        });
+        
+      });
+    })
+    
+    return res.json("OK")
+  })
+  
+  //GET ALL Transactions
+  appE.get('/transactions', (req, res)=>{
+    
+    db.all(sqlTransaction, [], (err, rows) => {
+      if (err) {
+        res.send("NOTOK") ;
+      }
+      return res.json(rows)
+    });
+    
+  });
+  
+  //Add Transaction 
+  
+  appE.post('/addTransaction', (req,res) =>{
+    
+    let today = new Date();
+    let time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() ;
+    let articles = req.body.toSell
+    let client = req.body.client;
+    let apc = req.body.apc;
+    let quantite = req.body.quantite;
+    db.serialize(() => {
+      
+      db.run(`INSERT INTO Transactions(Articles ,Client, APC , Add_Date) VALUES(?, ?, ?, ?)`, [articles, client, apc, time], function(err){
+        if(err){
+          return console.log(err)
+        }
+      }); 
+      db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [quantite , apc], function(err){
+        if(err){
+          return console.log(err)
+        }
+      });
+      return res.json("OK")
+    });
+    
+    
+  })
+  
+  //Modify DateTransaction
+  appE.post('/modifyDate', (req,res) =>{
+    
+    let date = req.body.date
+    let id = req.body.id
+    
+    
+    db.run(`UPDATE Transactions SET Add_Date = ? WHERE id = ?`, [date , id], function(err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      
+    });
+    return res.json("OK")
+  })
+  //Modify transaction
+  appE.post('/modifyTransaction', (req,res) =>{
+    db.serialize(()=>{
+      let id = req.body.id
+      let articles = req.body.articles
+      
+      db.all(sqlAPC, [], (err, rows) => {
+        let apc = rows.find(apc =>{
+          return apc.Nom == req.body.apc
+        })
+        
+        let index = apc.Articles.split(",").indexOf(req.body.toModify)
+        var quantity = apc.Reste.split(",").map(quantite => {
+          return parseFloat(quantite)
+        }) 
+        quantity[index] += req.body.quantite
+        db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [quantity , apc.Nom], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+        });
+      })
+      db.run(`UPDATE Transactions SET Articles = ? WHERE id = ?`, [articles , id], function(err) {
         if (err) {
           return console.log(err.message);
         }
         
       });
-    
-    });
-  })
-  
-  return res.json("OK")
-})
-
-
-
-//GET ALL Transactions
-appE.get('/transactions', (req, res)=>{
-  
-  db.all(sqlTransaction, [], (err, rows) => {
-    if (err) {
-      res.send("NOTOK") ;
-    }
-    return res.json(rows)
-  });
-  
-});
-
-//Add Transaction 
-
-appE.post('/addTransaction', (req,res) =>{
-  
-  let today = new Date();
-  let time = today.getDate() + '-' + (today.getMonth()+1) + '-'  + today.getFullYear() ;
-  let articles = req.body.toSell
-  let client = req.body.client;
-  let apc = req.body.apc;
-  let quantite = req.body.quantite;
-  db.serialize(() => {
-    
-    db.run(`INSERT INTO Transactions(Articles ,Client, APC , Add_Date) VALUES(?, ?, ?, ?)`, [articles, client, apc, time], function(err){
-      if(err){
-        return console.log(err)
-      }
-    }); 
-    db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [quantite , apc], function(err){
-      if(err){
-        return console.log(err)
-      }
     });
     return res.json("OK")
-  });
+  })
   
   
-})
-
-//Modify DateTransaction
-appE.post('/modifyDate', (req,res) =>{
+  //Add article to transaction
   
-  let date = req.body.date
-  let id = req.body.id
-
-  
-  db.run(`UPDATE Transactions SET Add_Date = ? WHERE id = ?`, [date , id], function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
-    
-  });
-  return res.json("OK")
-})
-//Modify transaction
-appE.post('/modifyTransaction', (req,res) =>{
-  db.serialize(()=>{
-    let id = req.body.id
-    let articles = req.body.articles
-    
-    db.all(sqlAPC, [], (err, rows) => {
-      let apc = rows.find(apc =>{
-        return apc.Nom == req.body.apc
-          })
+  appE.post('/addArticleTransac', (req,res) =>{
+    db.serialize(()=>{
       
-      let index = apc.Articles.split(",").indexOf(req.body.toModify)
-      var quantity = apc.Reste.split(",").map(quantite => {
-        return parseInt(quantite)
-      }) 
-      quantity[index] += req.body.quantite
-      db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [quantity , apc.Nom], function(err) {
+      db.all(sqlTransaction, [], (err, rows) => {
+        if (err) {
+          res.send("NOTOK") ;
+        }
+        let transaction = rows.find(transaction =>{
+          return transaction.id === req.body.id
+        })
+        let newArticles = transaction.Articles.split(",")
+        newArticles.push(req.body.article)
+        
+        db.run(`UPDATE Transactions SET Articles = ? WHERE id = ?`, [newArticles , req.body.id], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+        });
+      });
+      
+      db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [req.body.newReste , req.body.apc], function(err) {
         if (err) {
           return console.log(err.message);
         }
-        });
-      })
-   
-   
-
-    db.run(`UPDATE Transactions SET Articles = ? WHERE id = ?`, [articles , id], function(err) {
-      if (err) {
-        return console.log(err.message);
-      }
-      
       });
+      
     });
     return res.json("OK")
   })
+  
+  
+  
+  //Delete Client
+  
+  appE.post('/delTransaction', (req,res) =>{
+    
+    db.serialize(()=>{
+      let id = req.body.id
+      let articles = req.body.articles
+      let quantite = req.body.quantite
+      
+      db.all(sqlAPC, [], (err, apcs) => {
+        if (err) {
+          res.send("NOTOK") ;
+        }
+        let apc = apcs.find(apc => {
+          return apc.Nom === req.body.apc
+        })
+        let articlesofAPC = apc.Articles.split(",")
+        let quantiteofAPC = apc.Reste.split(",")
+        quantiteofAPC = quantiteofAPC.map(quantite => {
+          return parseFloat(quantite)
+        })
+        articlesofAPC.forEach((article) => {
+          if(articles.includes(article)){
+            let index = articles.indexOf(article)
+            quantiteofAPC[index] += parseFloat(quantite[index] )
+            
+          }
+        })
+        db.run(`UPDATE APC SET Reste = ? WHERE Nom = ?`, [quantiteofAPC , apc.Nom], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+        });
+      });
+      db.run(`DELETE FROM Transactions WHERE id = ?`, [id], function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        
+      });
+    });
+    return res.json("Deleted")
+  })
+  
+
 
 
 

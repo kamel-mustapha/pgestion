@@ -73,7 +73,7 @@
                 <div class="grid grid-cols-1 gap-6">
                     <label class="block">
                         <span class="text-gray-700">APC : </span>
-                        <select name="apc" class="border-gray-400 rounded-full outline-none" ngModel required>
+                        <select name="apc" class="border-gray-400 rounded-full outline-none w-40" ngModel required>
                             <option>...</option>
                             <option *ngFor = "let apc of APCs">{{apc.Nom | titlecase}}</option>
                         </select>
@@ -90,6 +90,23 @@
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">Total Hors Taxe : </span> {{totalHT | number : '1.2-2'}} DA</h1>
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">Total TVA : </span> {{totalTVA | number : '1.2-2'}} DA</h1>
             <h1 class="mx-4 my-2"><span class="text-red-700 font-bold">TTC : </span> {{totalHT + totalTVA | number : '1.2-2'}} DA</h1>
+            <div (click) = "onAddArticle()" class="inline-block mx-4 my-2 cursor-pointer"><i class="fas fa-plus text-green-500"></i> Ajouter un article</div>
+            <h1 *ngIf = "alreadyExists" class="text-red-500 mx-4">L'article est déjà dans le cahier de charge !</h1>
+            <div *ngIf = "addArticle" class="mx-4">
+                <label for="name">Nom : </label>
+                <select name="article" ngModel class="w-24">
+                    <option *ngFor = "let article of articles">{{article.Nom}}</option>
+                </select>
+                <label for="price">Prix : </label><input type="number" name="price" ngModel required class="w-36">
+                <label for="tva">TVA : </label>
+                <select name="tva" class="w-20" ngModel required>
+                    <option>0</option>
+                    <option>9</option>
+                    <option>19</option>
+                </select>
+                <label for="quantity">Quantité : </label><input type="number" name="quantity" ngModel required class="w-36">
+                <button type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
+            </div>
             <div class="articles flex flex-col  px-4">
                 <div class="-my-2  sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

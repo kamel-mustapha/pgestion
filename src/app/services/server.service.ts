@@ -61,6 +61,9 @@ export class ServerService {
   modifyApc(form : {}){
     return this.http.post("http://localhost:5400/modifyApc", form, this.httpOptions)
   }
+  addArticleApc(form : {}){
+    return this.http.post("http://localhost:5400/addArticleApc", form, this.httpOptions)
+  }
   //Utilisateur
   getUtilisateur(){
     return this.http.get<{}>("http://localhost:5400/utilisateur")
@@ -81,5 +84,11 @@ export class ServerService {
   }
   modifyTransaction(form : {}){
     return this.http.post("http://localhost:5400/modifyTransaction", form, this.httpOptions)
+  }
+  addArticleTransac(form : {}){
+    return this.http.post("http://localhost:5400/addArticleTransac", form, this.httpOptions)
+  }
+  deleteTransaction(form : {}){
+    return this.http.post("http://localhost:5400/delTransaction", form, this.httpOptions)
   }
 }

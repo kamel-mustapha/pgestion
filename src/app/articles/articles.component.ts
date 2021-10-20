@@ -65,7 +65,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         Swal.fire({
           title: 'Confirmation',
           text: 'Etes vous sûr de vouloir supprmier les articles séléctionnés ?',
-          confirmButtonColor: "#227f98",
+          confirmButtonColor: "#bc0000",
           confirmButtonText: 'Oui',
           cancelButtonText : 'Non',
           showCancelButton : true ,

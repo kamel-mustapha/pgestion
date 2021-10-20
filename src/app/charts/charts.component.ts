@@ -28,7 +28,7 @@ export class ChartsComponent implements OnInit {
       value => {this.user = value}
     )
     setTimeout(()=>{
-      console.log(this.user)
+     
     },100)
   }
   

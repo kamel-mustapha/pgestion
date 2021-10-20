@@ -38,7 +38,7 @@ export class JourneeComponent implements OnInit, OnDestroy {
           )
           
         }
-  ngOnDestroy(){
+        ngOnDestroy(){
           this.subscribe1.unsubscribe()
           this.subscribe2.unsubscribe()
           this.subscribe3.unsubscribe()
@@ -52,7 +52,7 @@ export class JourneeComponent implements OnInit, OnDestroy {
               this.apc = element
             }
           })
-          console.log(this.apc)
+  
           let articlesofAPC = this.apc.Articles.split(",")
           let quantiteofAPC = this.apc.Reste.split(",")
           
@@ -78,7 +78,7 @@ export class JourneeComponent implements OnInit, OnDestroy {
               apc : this.client.APC,
               quantite : quantiteofAPC
             }
-       
+            
             this.server.addTransaction(obje1).subscribe()
             
             setTimeout(()=>{
@@ -92,7 +92,7 @@ export class JourneeComponent implements OnInit, OnDestroy {
         } 
         
         onSubmitAPC(form : NgForm){
-         
+          
           this.isAPC = true;
           let liste : any = [];
           let client = this.clients.find((clien:any) =>{
@@ -117,8 +117,8 @@ export class JourneeComponent implements OnInit, OnDestroy {
             }
           })
           this.articlesAPC = liste
-       
+          
         }
-       
+        
       }
       

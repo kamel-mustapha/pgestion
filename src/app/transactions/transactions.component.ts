@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ServerService } from '../services/server.service';
 import { HostListener } from '@angular/core';
-
+import Swal from 'sweetalert2'
 
 
 
@@ -13,7 +13,7 @@ import { HostListener } from '@angular/core';
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
   
-
+  
   utilisateur : any = {};
   transactions : any ;
   articles : [] ;
@@ -43,11 +43,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
           value => {this.articles = value}
           )
         }
-  ngOnDestroy(){
-    this.subscribe1.unsubscribe()
-    this.subscribe2.unsubscribe()
-    this.subscribe3.unsubscribe()
-  }
+        ngOnDestroy(){
+          this.subscribe1.unsubscribe()
+          this.subscribe2.unsubscribe()
+          this.subscribe3.unsubscribe()
+        }
         onCreer(transaction : any){
           this.totalHorsTaxe = 0;
           this.tva9 = 0;
@@ -66,7 +66,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
           
           let liste : any = []
           let articlesQuantite = transaction.Articles.split(",")
-        
+          
           articlesQuantite.forEach((element : any) => {
             let artic = element.split(":")
             let obje : any = {
@@ -101,7 +101,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         }
         onModify(id : any){
           this.isModify[id] = true
-        
+          
         }
         
         onSubmitDate(form : NgForm, id : any){
@@ -116,6 +116,40 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             this.isModify = {}
             this.ngOnInit()
           },10)
+        }
+        onDelete(apc : any, id : any, articles : any){
+          let all = articles.split(",")
+          let article : any = []
+          let quantite : any = []
+          all.forEach((artic:any)=>{
+            let detail = artic.split(":")
+            
+            article.push(detail[0])
+            quantite.push(detail[1])
+          })
+          let obje = {
+            id : id,
+            apc : apc,
+            articles : article,
+            quantite : quantite
+          }
+          Swal.fire({
+            title: 'Confirmation',
+            text: 'Etes vous sûr de vouloir supprmier cette transaction ?',
+            confirmButtonColor: "#bc0000",
+            confirmButtonText: 'Oui',
+            cancelButtonText : 'Non',
+            showCancelButton : true ,
+            
+            
+          }).then(value=>{
+            if(value['isConfirmed']){
+              this.server.deleteTransaction(obje).subscribe()
+              setTimeout(()=>{
+                this.ngOnInit()
+              },100)
+            }
+          });
         }
       }
       

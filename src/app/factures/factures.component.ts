@@ -42,7 +42,7 @@ export class FacturesComponent implements OnInit {
           liste.push(transaction)
         }
       });
-      console.log(liste)
+    
       this.liste = liste
       
     }

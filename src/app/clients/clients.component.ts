@@ -4,6 +4,7 @@ import { ServerService } from '../services/server.service';
 import Swal from 'sweetalert2'
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -42,7 +43,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
           Swal.fire({
             title: 'Confirmation',
             text: 'Etes vous sûr de vouloir supprmier ce client ?',
-            confirmButtonColor: "#227f98",
+            confirmButtonColor: "#bc0000",
             confirmButtonText: 'Oui',
             cancelButtonText : 'Non',
             showCancelButton : true ,
@@ -84,9 +85,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
           
           if(client === undefined){
             this.isDuplicate = false;
-            this.server.addClient(form.value).subscribe(
-              value => {console.log(value)}
-              )
+            this.server.addClient(form.value).subscribe()
               this.hideAdd()
               setTimeout(()=>{
                 // location.reload();
@@ -158,6 +157,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
           
           
           // Afficher Modifier les APC
+          addArticle : boolean = false
+          alreadyExists : boolean = false
+          modifyArticle : boolean = false
           isAPC : boolean = false;
           apcToModify : any
           isApcModify : any = {}
@@ -184,7 +186,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
               return apc.Nom == form.value.apc.toLowerCase().trim()
             })
             
-            this.apcToModify = apc.Nom
+            this.apcToModify = apc
             let articles = apc.Articles.split(",")
             let quantite = apc.Quantite.split(",")
             let reste = apc.Reste.split(",")
@@ -200,7 +202,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
                 prix : prix[index],
                 tva : tva[index]
               };
-              console.log(obj)
+              
               this.totalHT += obj.prix*obj.quantite
               this.totalTVA += ((obj.tva*obj.prix)/100)*obj.quantite
               liste.push(obj)
@@ -209,47 +211,47 @@ export class ClientsComponent implements OnInit, OnDestroy {
             this.articlesAPC = liste
           }
           submitApc(form : NgForm){
-            this.isApcModify = {}
-            form.value.article = this.articleToModify
-            form.value.apc = this.apcToModify
-            this.isAPC = false;
-            this.hideCC()
-            this.server.modifyApc(form.value).subscribe()
-            setTimeout(()=>{
-              this.ngOnInit()
-            },100)
+            if(this.modifyArticle){
+              this.isApcModify = {}
+              form.value.article = this.articleToModify
+              form.value.apc = this.apcToModify.Nom
+              this.isAPC = false
+              this.addArticle = false
+              this.modifyArticle = false
+              this.hideCC()
+              this.server.modifyApc(form.value).subscribe()
+              setTimeout(()=>{
+                this.ngOnInit()
+              },100)
+            }
+            else if (this.addArticle){
+              this.alreadyExists = false
+              if((this.apcToModify.Articles.split(",")).includes(form.value.article)){
+                this.alreadyExists = true
+              } else {
+                form.value.apc = this.apcToModify.Nom
+                this.isAPC = false
+                this.addArticle = false
+                this.modifyArticle = false
+                this.hideCC()
+                this.server.addArticleApc(form.value).subscribe()
+                setTimeout(()=>{
+                  this.ngOnInit()
+                },100)
+              }
+            }
             
           }
           onModifyApc(nom : any){
+            this.modifyArticle = true
+            this.addArticle = false
             this.isApcModify[nom] = true
             this.articleToModify = nom
           }
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
+          onAddArticle(){
+            this.modifyArticle = false
+            this.addArticle = true
+          }
           
           
           
