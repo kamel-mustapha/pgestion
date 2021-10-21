@@ -171,4 +171,10 @@ export class FonctionsService {
      
      return numberToLetter;
   }//-----------------------------------------------------------------------
+  arraymove(arr : any[], fromIndex : number, toIndex : number) {
+    let element = arr[fromIndex];
+    arr.splice(fromIndex, 1);
+    arr.splice(toIndex, 0, element);
+    return arr
+}
 }

@@ -4,7 +4,7 @@ import { ServerService } from '../services/server.service';
 import Swal from 'sweetalert2'
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FonctionsService } from '../services/fonctions.service';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -62,7 +62,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
           this.subscribe2.unsubscribe()
           this.subscribe3.unsubscribe()
         }
-        constructor(private server : ServerService, private router : Router) { }
+        constructor(private server : ServerService, private router : Router, private fonction : FonctionsService) { }
         
         // Ajouter client
         isDuplicate : boolean = false;
@@ -157,6 +157,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
           
           
           // Afficher Modifier les APC
+          modifyPosition : any = {}
           addArticle : boolean = false
           alreadyExists : boolean = false
           modifyArticle : boolean = false
@@ -251,11 +252,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
           onAddArticle(){
             this.modifyArticle = false
             this.addArticle = true
+          } 
+          onPosition(article : any){
+            this.modifyPosition[article] = true
           }
-          
-          
-          
-          
-          
         }
         

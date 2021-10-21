@@ -1,5 +1,5 @@
 button {
-  @apply mx-4 border-none text-white px-3 py-2 text-center inline-block rounded-full font-bold text-sm;
+  @apply mx-4 border-none text-white  py-2 text-center inline-block rounded-full font-bold text-sm;
 }
 
 option {

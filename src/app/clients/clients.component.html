@@ -139,6 +139,9 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             
                                         </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            
+                                        </th>
                                         
                                     </tr>
                                 </thead>
@@ -200,6 +203,13 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <button *ngIf = "isApcModify[article.nom]" type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <span *ngIf = "!modifyPosition[article.nom]" class="text-red-600 cursor-pointer" (click) = "onPosition(article.nom)">Position</span>
+                                            <span *ngIf = "modifyPosition[article.nom]">
+                                                <input type="number" class="rounded-full w-20" required>
+                                                <button  type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
+                                            </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <span class="text-blue-600 cursor-pointer" (click) = "onModifyApc(article.nom)">Modifier</span>
