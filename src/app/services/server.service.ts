@@ -19,7 +19,7 @@ export class ServerService {
     return this.http.get<[]>("http://localhost:5400/articles")
   }
   addArticle(form : {}){
-    return this.http.post("http://localhost:5400/addArticle", form, this.httpOptions)
+    return this.http.post<[]>("http://localhost:5400/addArticle", form, this.httpOptions)
   }
   updateArticle(nom : {}){
     return this.http.post("http://localhost:5400/modArticle", nom, this.httpOptions)
@@ -63,6 +63,9 @@ export class ServerService {
   }
   addArticleApc(form : {}){
     return this.http.post("http://localhost:5400/addArticleApc", form, this.httpOptions)
+  }
+  modifyPosition(form : {}){
+    return this.http.post("http://localhost:5400/modifyPosition", form, this.httpOptions)
   }
   //Utilisateur
   getUtilisateur(){

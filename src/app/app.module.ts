@@ -23,6 +23,7 @@ import { DetailComponent } from './transactions/detail/detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FonctionsService } from './services/fonctions.service';
+import { DataService } from './services/data.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { FonctionsService } from './services/fonctions.service';
     BrowserAnimationsModule
     
   ],
-  providers: [ServerService, FonctionsService],
+  providers: [ServerService, FonctionsService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

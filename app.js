@@ -482,6 +482,37 @@ appE.post('/addUser', (req,res) =>{
     return res.json("OK")
   })
   
+  //Modify position of article in APC 
+  appE.post('/modifyPosition', (req,res) =>{
+    db.serialize(()=>{
+      db.all(sqlAPC, [], (err, rows) => {
+        if (err) {
+          res.send("NOTOK") ;
+        }
+        let apc = rows.find(apc => {
+          return apc.Nom === req.body.apc
+        })
+        let articles = req.body.articles
+        let quantity = req.body.quantite
+        let reste = req.body.reste
+        let prix = req.body.prix
+        let tva = req.body.tva
+        
+        
+        db.run(`UPDATE APC SET Articles = ?, Quantite = ?, Reste = ?, Prix = ?, TVA = ? WHERE Nom = ?`, [articles, quantity, reste, prix, tva, apc.Nom], function(err) {
+          if (err) {
+            return console.log(err.message);
+          }
+          
+        });
+        
+      });
+    })
+    
+    return res.json("OK")
+  })
+
+
   //GET ALL Transactions
   appE.get('/transactions', (req, res)=>{
     
@@ -598,6 +629,7 @@ appE.post('/addUser', (req,res) =>{
         }
       });
       
+      
     });
     return res.json("OK")
   })
@@ -648,7 +680,6 @@ appE.post('/addUser', (req,res) =>{
     return res.json("Deleted")
   })
   
-
 
 
 

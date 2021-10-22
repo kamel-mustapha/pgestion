@@ -22,6 +22,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   isModify : any = {}
   toModify : any 
   subscribe : any
+  subscribe1 : any
   alreadyExists : boolean = false
   outOfStock : boolean = false
   isAddArticle : boolean = false
@@ -39,7 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     
     
     
-    this.server.getAPC().subscribe(
+    this.subscribe1 = this.server.getAPC().subscribe(
       value => {
         this.apc = value.find((apc:any)=>{
           return apc.Nom === this.transactions.APC
@@ -75,6 +76,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       
       ngOnDestroy (){
         this.subscribe.unsubscribe()
+        this.subscribe1.unsubscribe()
       }
       
       showModify(article : any){
@@ -83,7 +85,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.toModify = article
       }
       
-      onSubmit(form : NgForm, oldQuantite : any){
+      onSubmit(form : NgForm, oldQuantite : any, article : any){
         
         this.isModify = {}
         this.totalHorsTaxe = 0
@@ -106,7 +108,7 @@ export class DetailComponent implements OnInit, OnDestroy {
           quantite : value
           
         }
-        
+      
         this.server.modifyTransaction(obje).subscribe()
         setTimeout(()=>{
           this.router.navigate(["/transactions"])

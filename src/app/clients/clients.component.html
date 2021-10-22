@@ -97,14 +97,14 @@
                 <select name="article" ngModel class="w-24">
                     <option *ngFor = "let article of articles">{{article.Nom}}</option>
                 </select>
-                <label for="price">Prix : </label><input type="number" name="price" ngModel required class="w-36">
+                <label for="price">Prix : </label><input type="number" name="price" ngModel required class="w-36 mx-4 rounded-full">
                 <label for="tva">TVA : </label>
                 <select name="tva" class="w-20" ngModel required>
                     <option>0</option>
                     <option>9</option>
                     <option>19</option>
                 </select>
-                <label for="quantity">Quantité : </label><input type="number" name="quantity" ngModel required class="w-36">
+                <label for="quantity">Quantité : </label><input type="number" name="quantity" ngModel required class="w-36 mx-4 rounded-full">
                 <button type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
             </div>
             <div class="articles flex flex-col  px-4">
@@ -207,7 +207,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <span *ngIf = "!modifyPosition[article.nom]" class="text-red-600 cursor-pointer" (click) = "onPosition(article.nom)">Position</span>
                                             <span *ngIf = "modifyPosition[article.nom]">
-                                                <input type="number" class="rounded-full w-20" required>
+                                                <select name="position" ngModel>
+                                                    <option *ngFor = "let index of indexes">{{index}}</option>
+                                                </select>
                                                 <button  type="submit" class="text-green-500 mx-2" [disabled] = "f3.invalid" ><i class="fas fa-check"></i></button>
                                             </span>
                                         </td>

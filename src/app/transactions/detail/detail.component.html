@@ -62,7 +62,7 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 {{article.quantite }} <span class="mx-4 text-blue-800 cursor-pointer" (click) = "showModify(article.article)">Modifier</span>
-                <form *ngIf = "isModify[article.article]" class="inline" #f = "ngForm" (ngSubmit) = onSubmit(f,article.quantite)>
+                <form *ngIf = "isModify[article.article]" class="inline" #f = "ngForm" (ngSubmit) = "onSubmit(f,article.quantite,article.article)">
                   <input [ngModel] = "article.quantite" required name = "newQuantite" type="number" class="w-24 border-gray-200 rounded-full">
                   <button type="submit" class="text-green-500 mx-2" [disabled] = "f.invalid"><i class="fas fa-check"></i></button>
                 </form>

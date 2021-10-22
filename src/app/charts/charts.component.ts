@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServerService } from '../services/server.service';
+import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -7,7 +8,7 @@ import { ServerService } from '../services/server.service';
 })
 export class ChartsComponent implements OnInit {
   user : any = {}
-  constructor(private server : ServerService) { }
+  constructor(private server : ServerService, private data : DataService) { }
   barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -20,9 +21,10 @@ export class ChartsComponent implements OnInit {
   ];
   pieChartData = [1800, 1000, 500, 850];
   pieChartLabels = ['Pain', 'Carotte', 'Tomate', 'Oignon'];
-  
+
   
   ngOnInit(): void {
+ 
     window.scrollTo(0, 0);
     this.server.getUtilisateur().subscribe(
       value => {this.user = value}

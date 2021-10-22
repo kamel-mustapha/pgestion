@@ -1,8 +1,15 @@
 <div class="container relative" >
     <h1 class="text-3xl font-bold text-gray-700 font-serif">TRANSACTIONS</h1>
     
-    
-    <div class="flex flex-col px-2 mt-6 ">
+    <form (ngSubmit) = 'onSubmitClient(f1)' #f1 = ngForm>
+        <h1 class="my-4">Client : <select class="my-4 w-32 rounded-full border-gray-300" ngModel required name="client">
+          <option>...</option>
+          <option *ngFor = "let client of clients">{{client.Cantine | titlecase}}</option>
+        </select>
+        <button type="submit" class="text-blue-700 ml-4" [disabled] = "f1.invalid" >Selectionner</button>
+      </h1>
+    </form>
+    <div  class="flex flex-col px-2 mt-6 ">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden sm:rounded-lg ">

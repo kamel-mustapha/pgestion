@@ -15,10 +15,13 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   
   
   utilisateur : any = {};
+  allTransac : any 
   transactions : any ;
   articles : [] ;
+  clients : any = []
   articleInBl : any ;
   isBl : boolean = false;
+ 
   transac : any 
   totalHorsTaxe = 0;
   tva9 = 0;
@@ -28,27 +31,44 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   subscribe1 : any
   subscribe2 : any 
   subscribe3 : any
+  subscribe4 : any
   constructor(private server : ServerService) { }
   
   ngOnInit(): void {
     
-    
+    window.scrollTo(0, 0)
     this.subscribe1 = this.server.getUtilisateur().subscribe(
       (value) => {this.utilisateur = value}
       )
       this.subscribe2 = this.server.getTransactions().subscribe(
-        value => {this.transactions = value;this.transactions = this.transactions.reverse()}
+        value => {this.allTransac = value}
         )
         this.subscribe3 = this.server.getArticles().subscribe(
           value => {this.articles = value}
           )
+        this.subscribe4 = this.server.getClients().subscribe(
+          value => {this.clients = value}
+        )
         }
         ngOnDestroy(){
           this.subscribe1.unsubscribe()
           this.subscribe2.unsubscribe()
           this.subscribe3.unsubscribe()
+          this.subscribe4.unsubscribe()
+        }
+        onSubmitClient(form : NgForm){
+          
+          let newTransactions = this.allTransac.filter((transac : any)=>{
+            if(transac.Client === form.value.client.toLowerCase()){
+              return true
+            } else {return false}
+          })
+          this.transactions = newTransactions.reverse()
+
         }
         onCreer(transaction : any){
+         
+          window.scrollTo(0, 0)
           this.totalHorsTaxe = 0;
           this.tva9 = 0;
           this.tva19= 0;

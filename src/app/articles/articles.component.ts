@@ -8,7 +8,7 @@ import { ServerService } from '../services/server.service';
   styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
-  articles : any[] = [];
+  articles : any = [];
   isDuplicate : boolean = false;
   isAjouter : boolean = false;
   isModifier : boolean = false;
@@ -27,34 +27,35 @@ export class ArticlesComponent implements OnInit, OnDestroy {
     ngOnDestroy(){
       this.subscribe.unsubscribe()
     }
+
     onSubmit(form : NgForm){
+      this.isDuplicate = false 
+      this.isMultiple = false
+      this.isMultiple = false
       //Ajouter un article
       if(this.isAjouter){
         
-        let artic = this.articles.find((article)=>{
+        let artic = this.articles.find((article:any)=>{
           
-          return form.value.nom.toLowerCase().trim() === article.Nom.toLowerCase().trim()
+          return form.value.nom.toLowerCase().trim() === article.Nom
           
         })
         
         if(artic === undefined){
-          this.isDuplicate = false ; 
-          this.server.addArticle(form.value).subscribe()
-          setTimeout(()=>{
-            this.isMultiple = false;
-            form.reset()
-            this.ngOnInit()
-          },5)
+          this.server.addArticle(form.value).subscribe(
+            value => {this.articles = value}
+          )
+          form.reset()
+          
         } else {
           this.isDuplicate = true ; 
-          this.ngOnInit();
         }
         
         
         // Supprimer un article
       } else if (this.isSupprimer){
         let toDelete :any = [] ;
-        this.articles.forEach(article => {
+        this.articles.forEach((article:any) => {
           if(form.value[article.Nom]){
             toDelete.push(article.Nom)
           }
@@ -79,11 +80,12 @@ export class ArticlesComponent implements OnInit, OnDestroy {
             },10)
           }
         });
+
         //Modification d'un article 
       } else if(this.isModifier){
         let compteur = 0
         let duplicate = 0
-        this.articles.forEach(article =>{
+        this.articles.forEach((article:any) =>{
           if(form.value[article.Nom] && form.value[article.Nom] != null ){
             compteur++
           } else if ((form.value.nom ).toLowerCase().trim() === article.Nom){
@@ -93,11 +95,8 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         
         if(compteur === 1 && duplicate === 0){
           let obje : any 
-          this.isMultiple = false
-          
-          this.articles.forEach(article =>{
+          this.articles.forEach((article:any) =>{
             if(form.value[article.Nom] && form.value[article.Nom] != null ){
-              
               obje = {
                 toModify : article.Nom,
                 nom : form.value.nom,
@@ -118,6 +117,8 @@ export class ArticlesComponent implements OnInit, OnDestroy {
       }
     };
     
+
+
     ajouter(){
       this.isAjouter = true ;
       this.isSupprimer = false;

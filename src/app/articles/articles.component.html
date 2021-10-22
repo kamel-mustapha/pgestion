@@ -1,18 +1,17 @@
 <main >
   <form #f = ngForm (ngSubmit) = onSubmit(f)>
-    <div class="py-8 top-0 pr-20 2xl:pr-96 2xl:w-full bg-white fixed ">
+    <div class="py-8 top-0  pr-40 md:pr-52 lg:pr-64 xl:pr-96 w-full bg-white fixed ">
       <h1 class="text-3xl font-bold text-gray-700 font-serif">ARTICLES</h1>
       <h1 *ngIf = "isDuplicate" class="text-red-500 top-20 absolute">Ce nom d'article existe déjà !</h1>
       <h1 *ngIf = "isMultiple" class="text-red-500 top-20 absolute">Vous pouvez modifier seulement un article à la fois !</h1>
       
       <div class="mt-8 text-center">
-          <label for="nom" class="mx-2 font-bold ">Nom : </label><input class="shadow-md rounded-full w-24 px-4 2xl:w-64" type="text" name = "nom" ngModel required> 
-          <label for="ucomp" class="mx-2 font-bold">Mesure:</label><input type="text" class="shadow-md w-16 2xl:w-16 rounded-full px-4 " name = "ucomp" ngModel>
-          <label for="peremDate" class="mx-2 font-bold">Peremption : </label><input type="date" class="shadow-md w-32 2xl:w-52 rounded-full px-4  " name = "peremDate" ngModel>
-          
-          <button class="bg-green-700 w-20" type="submit" [disabled] = "f.invalid" (click) = "ajouter()">Ajouter</button>
-          <button type="submit" class="bg-red-700 my-4 w-20" (click) = "supprimer()">Supprimer</button>
-          <button type="submit" class="bg-blue-700 my-4 w-20" (click) = "modifier()" >Modifier</button> 
+        <label for="nom" class="mx-2 font-bold ">Nom : </label><input class="shadow-md rounded-full w-24 px-4 2xl:w-64" type="text" name = "nom" ngModel required> 
+        <label for="ucomp" class="mx-2 font-bold">Mesure:</label><input type="text" class="shadow-md w-16 2xl:w-16 rounded-full px-4 " name = "ucomp" ngModel>
+        <label for="peremDate" class="mx-2 font-bold">Peremption : </label><input type="date" class="shadow-md w-24 2xl:w-52 rounded-full px-4  " name = "peremDate" ngModel>
+        <button class="bg-green-700 w-16 xl:w-24" type="submit" [disabled] = "f.invalid" (click) = "ajouter()">Ajouter</button>
+        <button type="submit" class="bg-red-700 my-4 w-16 xl:w-24" (click) = "supprimer()">Supprimer</button>
+        <button type="submit" class="bg-blue-700 my-4 w-16 xl:w-24" (click) = "modifier()" >Modifier</button> 
       </div>
     </div>
     <div class="flex flex-col px-2  mt-52 ">
